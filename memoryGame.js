@@ -23,6 +23,7 @@ var trackedCards = [];
 var log = [];
 var currentPlayer = 0;
 var flippedCardId;
+var seconds = 10;
 var cards = [
 {
 	rank: "queen",
@@ -90,28 +91,12 @@ var cards = [
 }
 ];
 
-// Tracking of Players
-
-// function playTurn(index){
-
-// 	for (var i = 0; i < (log.length+1); i++){
-// 		if(index == log[i]){
-// 		return false;
-// 		}
-// 	}
-// 	log.push(index);
-// 	currentPlayer = log.length%2;
-// 	return true;
-// }
-
-// console.log(log);
-// End of Player Tracking
 // Basic Card Flip Functionality - Tested with 5 sets
 
 function flipCard(id){
 	var flippedCardId = this.getAttribute("id");
 	console.log(flippedCardId);
-	// cardCheck();
+
 	if(flippedCardId != trackedCards[0]){
 		trackedCards.push(flippedCardId);
 		cardsInPlay.push(cards[flippedCardId].rank);
@@ -120,135 +105,136 @@ function flipCard(id){
 		if(cardsInPlay.length == 2){
 			var cardOne = cardsInPlay[0];
 			var cardTwo = cardsInPlay[1];
-			// console.log(cardOne.includes(cardTwo));
 
 			if(cardOne.includes(cardTwo)){
-				// cardsInPlay = [];
-				// trackedCards = [];
 				playerScores[currentPlayer]++;
-				console.log(playerScores);
-				console.log(flippedCardId);
+				log.push(parseInt(trackedCards[0]));
+				log.push(parseInt(trackedCards[1]));
+				console.log("Current Player is " + currentPlayer);
+
+				playerScoreTracking();
+
+				outOfPlay();
+
+				// setTimeout(function(){document.getElementById(flippedCardId).removeEventListener('click', flipCard);}, 600);
+				
+				setTimeout(function(){
+				cardsInPlay = [];
+				trackedCards = [];	
+				}, 600);
+
 				console.log(log);
 				console.log(log.length);
+		
+			} 	
 
+			else { 
 
-				// If First Pair
-				// if(log.length == 0){
-					console.log(trackedCards);
-					log.push(parseInt(trackedCards[0]));
-					log.push(parseInt(trackedCards[1]));
-					console.log("Current Player is " + currentPlayer);
+				playerSwitch();
 
-					if(currentPlayer == 0){
-						document.getElementById("p1").innerHTML = playerScores[currentPlayer];
-					} else {
-						document.getElementById("p2").innerHTML = playerScores[currentPlayer];
-					}
-					setTimeout(function(){document.getElementById(flippedCardId).removeEventListener('click', flipCard);}, 600);
-					console.log(log);
-					console.log(log.length);
-					cardsInPlay = [];
-					trackedCards = [];
-
-
-					//Second Pair Onwards
-				// } 
-
-				// else {
-
-				// 	for(var i = 0; i < log.length; i++){
-
-				// 		if((log[i] == parseInt(trackedCards[0]) || log[i] == parseInt(trackedCards[1])) == false){
-
-				// 		log.push(parseInt(trackedCards[0]));
-				// 		log.push(parseInt(trackedCards[1]));
-				// 		console.log(log);
-				// 		console.log(log.length);
-
-				// 		// log.push(parseInt(flippedCardId));
-				// 		setTimeout(function(){
-				// 			document.getElementById(flippedCardId).removeEventListener('click', flipCard);
-				// 		}, 500);
-				// 		console.log(log);
-				// 		console.log(log.length);
-				// 		cardsInPlay = [];
-				// 		trackedCards = [];
-				// 		}
-				// 	}
-				// }
-
-					//If not matching pair
-
-				} 	else { 
-
-						// Should cut off into separate function
-
-						if(gameOver() == false){
-
-							if(currentPlayer == 0){
-									currentPlayer = 1;
-									console.log("Current Player is " + currentPlayer);
-									$(".playerDisplay").empty();
-									$(".playerDisplay").append("Player Two");
-									setTimeout(revert, 500);
-								} 
-								else {
-									currentPlayer = 0;
-									console.log("Current Player is " + currentPlayer);
-									$(".playerDisplay").empty();
-									$(".playerDisplay").append("Player One");
-									setTimeout(revert, 500);
-								}
-						}
-					}
+			}
 		}
 	}
-	// gameOver();
 	whoWon();
 }
 
+function outOfPlay(){
+
+	$.each(trackedCards,function(i, card){
+		setTimeout(function(){document.getElementById(card).removeEventListener('click', flipCard);}, 600);
+	});
+
+}
+
+function playerSwitch(){
+
+	if(gameOver() == false){
+
+		if(currentPlayer == 0){
+				currentPlayer = 1;
+				console.log("Current Player is " + currentPlayer);
+				$(".playerOne").css('color', 'black');
+				$(".playerTwo").css('color', 'red');
+				seconds = 10;
+				setTimeout(revert, 400);
+			} 
+			
+		else {
+				currentPlayer = 0;
+				console.log("Current Player is " + currentPlayer);
+				$(".playerTwo").css('color', 'black');
+				$(".playerOne").css('color', 'red');
+				seconds = 10;
+				setTimeout(revert, 400);
+			}
+		}
+
+}
+
+function playerScoreTracking(){
+
+	if(currentPlayer == 0){
+		document.getElementById("p1").innerHTML = playerScores[currentPlayer];
+	} 
+
+	else {
+		document.getElementById("p2").innerHTML = playerScores[currentPlayer];
+	}
+}
+
 function revert(){
-	document.getElementById(trackedCards[0]).setAttribute('src', 'images/back.png');
-	document.getElementById(trackedCards[1]).setAttribute('src', 'images/back.png');
-	setTimeout(function(){trackedCards = [];}, 500)
+
+	if(trackedCards.length != 0){
+
+		$.each(trackedCards, function(i, card){
+			document.getElementById(card).setAttribute('src', 'images/back.png');
+		});
+
+	}
+
+	setTimeout(function(){trackedCards = [];}, 200)
 	cardsInPlay = [];
 }
 
+function countDownTimer(){
 
-// cardCheck is to be removed.
+	seconds = 10;
+	document.querySelector(".playerDisplay").innerHTML = seconds + "s";
+	
+	var timer = setInterval(function(){
 
-// function cardCheck(){
-// 	for (var i = 0; i < log.length; i++){
-// 		if(log[i] == flippedCardId){
-// 			alert("Choose another card");
-// 		}
-// 	}
-// }
+		document.querySelector(".playerDisplay").innerHTML = seconds-- + "s";
+		// console.log(seconds);
+
+		if(seconds < 0){
+			playerSwitch();
+			console.log(currentPlayer);
+
+		}
+	}, 1000);
+}
 
 // End of Basic Flip Card Functionality
 
 // Cards Shuffler
 
 function shuffle(array) {
+	
   var cardsArrayLength = array.length, cardHolder, index;
 
-  // While there remain elements to shuffle…
   while (cardsArrayLength) {
 
-    // Pick a remaining element…
     index = Math.floor(Math.random() * cardsArrayLength--);
 
-    // And swap it with the current element.
     cardHolder = array[cardsArrayLength];
     array[cardsArrayLength] = array[index];
     array[index] = cardHolder;
   }
 
   return array;
+
 };
 
-// console.log(cards);
-// console.log(shuffle(cards));
 //End of Card Shuffler
 
 
@@ -257,17 +243,19 @@ function shuffle(array) {
 // var card;
 
 // var gameBoardSetup = function
-	function gameBoardSetup(){
-		shuffle(cards);
-		$("#mainBoard").empty();
-		// console.log(cards);
-		for (var i = 0; i < cards.length; i++){
-			var card = document.createElement('img');
-			card.setAttribute('src', 'images/back.png');
-			card.setAttribute('id', i);
-			card.addEventListener('click', flipCard);
-			document.getElementById("mainBoard").appendChild(card);
-			}
+function gameBoardSetup(){
+
+	shuffle(cards);
+	$("#mainBoard").empty();
+	// console.log(cards);
+	for (var i = 0; i < cards.length; i++){
+		var card = document.createElement('img');
+		card.setAttribute('src', 'images/back.png');
+		card.setAttribute('id', i);
+		card.addEventListener('click', flipCard);
+		document.getElementById("mainBoard").appendChild(card);
+		}
+
 };
 
 // gameBoardSetup();
@@ -283,10 +271,6 @@ function gameOver(){
 	return false;
 }
 
-// function stopGame(){
-// 	document.querySelector("img").removeEventListener('mouseover', flipCard())
-// }
-
 // End of Game Over Function
 
 // Who Won Announcer
@@ -298,7 +282,6 @@ function whoWon(){
 		} else {
 			alert("Player Two wins!");
 		}
-		// alert("Game Over!");
 	}
 }
 
@@ -315,8 +298,10 @@ function restart(){
  	trackedCards = [];
  	gameBoardSetup();
  	$(".playerScore").empty().append("0");
+ 	$(".playerOne").css('color', 'red');
  	// $(".playerScore").append("0");
- 	$(".playerDisplay").empty().append("Player One");
+ 	// $(".playerDisplay").empty().append("Player One");
+ 	countDownTimer();
  	// $(".playerDisplay").append("Player One");
  	alert("Game Ready!");
 
@@ -326,14 +311,8 @@ $("#reset").click(function(){
 	restart();
 });
 
+
+
 // End of Game Initialise
 
-// For Testing of new functions
-// function gameBoardSetupAlt = function(){
-// 	var holder;
-// 	this.$cards.each(function(cards, index){
-// 		holder += "<div class='card' id='" + index.id + "'><div class='front'><img src='" + index.cardImage + "'></div><div class='back'><img src='" + 
-// 	})
-// }
-// End of Testing
 });
