@@ -1,0 +1,105 @@
+body {
+	min-height: 100%;
+	width: 100%;
+}
+
+.gameBoard {
+	height: 1000px;
+	width: 1024px;
+	margin: 20px auto;
+}
+
+.gameTopSection {
+	height: 250px;
+	width: 1024px;
+}
+
+.gameTitle {
+	height: 70px;
+	width: 1024px;
+	margin: 0 auto;
+	text-align: center;
+	font-size: 50px;
+	font-weight: bold;
+}
+
+.playerOne {
+	display: inline-block;
+	border: 2px solid black;
+	height: 150px;
+	width: 290px;
+	padding: 0px;
+	margin-left: 8px;
+	text-align: center;
+	font-size: 30px;
+	font-weight: bold;
+	line-height: 50px;
+}
+
+.statusMenu {
+	display: inline-block;
+	position: relative;
+	border: 2px solid black;
+	height: 150px;
+	width: 400px;
+	padding: 0px;
+	font-size: 30px;
+	font-weight: bold;
+	text-align: center;
+	line-height: 50px;
+}
+
+.playerDisplay {
+	position: absolute;
+	height: 50px;
+	width: 400px;
+	text-align: center;
+	font-size: 20px;
+	line-height: 40px;
+	font-weight: bold italic;
+}
+
+.playerScore {
+	position: absolute;
+	height: 50px;
+	width: 290px;
+	text-align: center;
+	font-size: 20px;
+	line-height: 40px;
+	font-weight: bold italic;
+}
+
+.playerTwo {
+	display: inline-block;
+	border: 2px solid black;
+	height: 150px;
+	width: 290px;
+	padding: 0px;
+	text-align: center;
+	font-size: 30px;
+	font-weight: bold;
+	line-height: 50px;
+}
+
+#mainBoard {
+	height: 700px;
+	width: 580px;
+	text-align: center;
+	margin: 0 auto;
+}
+
+#reset {
+	position: absolute;
+	top: 70%;
+	left: 50%;
+	margin-left: -100px;
+	height: 40px;
+	width: 200px;
+	font-size: 20px;
+}
+
+img {
+	padding: 20px;
+	height: 100px;
+	width: 100px;
+}
