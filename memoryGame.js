@@ -187,7 +187,7 @@ function revert(){
 	if(trackedCards.length != 0){
 
 		$.each(trackedCards, function(i, card){
-			document.getElementById(card).setAttribute('src', 'images/back.png');
+			document.getElementById(card).setAttribute('src', 'images/cardBack.png');
 		});
 
 	}
@@ -265,13 +265,13 @@ function gameBoardSetup(){
 
 // Test of new game board creation
 	
-	function testSetup(){
-		shuffle(cards);
-		$(".testBoard").empty();
-		$.each(cards, function(i, card){
-			$(".testboard").append("<div class='front'><img src='"+cards.cardImage+"'></div><div class='back'><img src='images/cardBack.png'></div>");
-		});
-	}
+	// function testSetup(){
+	// 	shuffle(cards);
+	// 	$(".testBoard").empty();
+	// 	$.each(cards, function(i, card){
+	// 		$(".testboard").append("<div class='front'><img src='"+cards.cardImage+"'></div><div class='back'><img src='images/cardBack.png'></div>");
+	// 	});
+	// }
 
 // End of test
 //End of Game Board Creation
