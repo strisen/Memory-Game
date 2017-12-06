@@ -1,6 +1,7 @@
 body {
 	min-height: 100%;
 	width: 100%;
+	background-color: #E0E0FB;
 }
 
 .gameBoard {
@@ -12,6 +13,7 @@ body {
 .gameTopSection {
 	height: 250px;
 	width: 1024px;
+	font-family: 'Orbitron', sans-serif;
 }
 
 .gameTitle {
@@ -21,6 +23,7 @@ body {
 	text-align: center;
 	font-size: 50px;
 	font-weight: bold;
+	font-family: 'Vollkorn SC', serif;
 }
 
 .playerOne {
@@ -34,6 +37,7 @@ body {
 	font-size: 30px;
 	font-weight: bold;
 	line-height: 50px;
+	background-color: #8A8AEF;
 }
 
 .statusMenu {
@@ -47,6 +51,7 @@ body {
 	font-weight: bold;
 	text-align: center;
 	line-height: 50px;
+	background-color: #8A8AEF;
 }
 
 .playerDisplay {
@@ -79,6 +84,7 @@ body {
 	font-size: 30px;
 	font-weight: bold;
 	line-height: 50px;
+	background-color: #8A8AEF;
 }
 
 #mainBoard {
@@ -86,6 +92,7 @@ body {
 	width: 580px;
 	text-align: center;
 	margin: 0 auto;
+	background-color: #E0E0FB;
 }
 
 #reset {
@@ -96,6 +103,7 @@ body {
 	height: 40px;
 	width: 200px;
 	font-size: 20px;
+	border: 0.5px solid black;
 }
 
 img {
@@ -106,7 +114,7 @@ img {
 
 }
 
-@keyframes roll {
+/*@keyframes roll {
 	0% {
 		transform: rotateY(0deg);
 	}
@@ -118,8 +126,9 @@ img {
 img:hover {
 	animation: roll 5s infinite;
 	transform: rotateY(30deg);
-}
+}*/
 
-.modal {
-	display: none;
+.testBoard {
+	height: 700px;
+	width: 580px;
 }

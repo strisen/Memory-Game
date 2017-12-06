@@ -26,68 +26,68 @@ var flippedCardId;
 var seconds = 10;
 var cards = [
 {
-	rank: "queen",
-	cardImage: "images/queen-of-hearts.png"
+	value: "ace",
+	cardImage: "images/ace.png"
 },
 {
-	rank: "queen",
-	cardImage: "images/queen-of-diamonds.png"
+	value: "ace",
+	cardImage: "images/ace.png"
 },
 {
-	rank: "king",
-	cardImage: "images/king-of-hearts.png"
+	value: "two",
+	cardImage: "images/two.png"
 },
 {
-	rank: "king",
-	cardImage: "images/king-of-diamonds.png"
+	value: "two",
+	cardImage: "images/two.png"
 },
 {
-	rank: "queen",
-	cardImage: "images/queen-of-hearts.png"
+	value: "three",
+	cardImage: "images/three.png"
 },
 {
-	rank: "queen",
-	cardImage: "images/queen-of-diamonds.png"
+	value: "three",
+	cardImage: "images/three.png"
 },
 {
-	rank: "king",
-	cardImage: "images/king-of-hearts.png"
+	value: "four",
+	cardImage: "images/four.png"
 },
 {
-	rank: "king",
-	cardImage: "images/king-of-diamonds.png"
+	value: "four",
+	cardImage: "images/four.png"
 },
 {
-	rank: "king",
-	cardImage: "images/king-of-hearts.png"
+	value: "five",
+	cardImage: "images/five.png"
 },
 {
-	rank: "king",
-	cardImage: "images/king-of-diamonds.png"
+	value: "five",
+	cardImage: "images/five.png"
 },
 {
-	rank: "queen",
-	cardImage: "images/queen-of-hearts.png"
+	value: "six",
+	cardImage: "images/six.png"
 },
 {
-	rank: "queen",
-	cardImage: "images/queen-of-diamonds.png"
+	value: "six",
+	cardImage: "images/six.png"
 },
 {
-	rank: "king",
-	cardImage: "images/king-of-hearts.png"
+	value: "seven",
+	cardImage: "images/seven.png"
 },
 {
-	rank: "king",
-	cardImage: "images/king-of-diamonds.png"
+	value: "seven",
+	cardImage: "images/seven.png"
 },
 {
-	rank: "king",
-	cardImage: "images/king-of-hearts.png"
+	value: "eight",
+	cardImage: "images/eight.png"
 },
 {
-	rank: "king",
-	cardImage: "images/king-of-diamonds.png"
+	value: "eight",
+	cardImage: "images/eight.png"
 }
 ];
 
@@ -98,30 +98,21 @@ function flipCard(id){
 	console.log(flippedCardId);
 
 	if(flippedCardId != trackedCards[0]){
+
 		trackedCards.push(flippedCardId);
-		cardsInPlay.push(cards[flippedCardId].rank);
-		var cardId = this.setAttribute('src', cards[flippedCardId].cardImage)
+		cardsInPlay.push(cards[flippedCardId].value);
+		var selectedCard = this.setAttribute('src', cards[flippedCardId].cardImage)
+		console.log(trackedCards);
 
 		if(cardsInPlay.length == 2){
 			var cardOne = cardsInPlay[0];
 			var cardTwo = cardsInPlay[1];
 
 			if(cardOne.includes(cardTwo)){
-				playerScores[currentPlayer]++;
-				log.push(parseInt(trackedCards[0]));
-				log.push(parseInt(trackedCards[1]));
-				console.log("Current Player is " + currentPlayer);
 
 				playerScoreTracking();
 
 				outOfPlay();
-
-				// setTimeout(function(){document.getElementById(flippedCardId).removeEventListener('click', flipCard);}, 600);
-				
-				setTimeout(function(){
-				cardsInPlay = [];
-				trackedCards = [];	
-				}, 600);
 
 				console.log(log);
 				console.log(log.length);
@@ -141,7 +132,9 @@ function flipCard(id){
 function outOfPlay(){
 
 	$.each(trackedCards,function(i, card){
-		setTimeout(function(){document.getElementById(card).removeEventListener('click', flipCard);}, 600);
+		setTimeout(function(){document.getElementById(card).removeEventListener('click', flipCard);}, 200);
+		setTimeout(function(){trackedCards = [];}, 100);
+		cardsInPlay = [];
 	});
 
 }
@@ -150,13 +143,14 @@ function playerSwitch(){
 
 	if(gameOver() == false){
 
+		seconds = 10;
+		document.querySelector(".playerDisplay").innerHTML = seconds + "s";
+
 		if(currentPlayer == 0){
 				currentPlayer = 1;
 				console.log("Current Player is " + currentPlayer);
 				$(".playerOne").css('color', 'black');
 				$(".playerTwo").css('color', 'red');
-				seconds = 10;
-				setTimeout(revert, 400);
 			} 
 			
 		else {
@@ -164,14 +158,20 @@ function playerSwitch(){
 				console.log("Current Player is " + currentPlayer);
 				$(".playerTwo").css('color', 'black');
 				$(".playerOne").css('color', 'red');
-				seconds = 10;
-				setTimeout(revert, 400);
 			}
+
+		setTimeout(revert, 400);	
+
 		}
 
 }
 
 function playerScoreTracking(){
+
+	playerScores[currentPlayer]++;
+	log.push(parseInt(trackedCards[0]));
+	log.push(parseInt(trackedCards[1]));
+	console.log("Current Player is " + currentPlayer);
 
 	if(currentPlayer == 0){
 		document.getElementById("p1").innerHTML = playerScores[currentPlayer];
@@ -192,25 +192,33 @@ function revert(){
 
 	}
 
-	setTimeout(function(){trackedCards = [];}, 200)
+	setTimeout(function(){trackedCards = [];}, 400);
 	cardsInPlay = [];
 }
 
+var timer;
+
 function countDownTimer(){
 
-	seconds = 10;
-	document.querySelector(".playerDisplay").innerHTML = seconds + "s";
-	
-	var timer = setInterval(function(){
+	// seconds = 10;
+	// document.querySelector(".playerDisplay").innerHTML = seconds + "s";
 
-		document.querySelector(".playerDisplay").innerHTML = seconds-- + "s";
-		// console.log(seconds);
+	timer = setInterval(function(){
 
-		if(seconds < 0){
+		if(gameOver() == false){
+
+			document.querySelector(".playerDisplay").innerHTML = seconds-- + "s";
+			console.log(seconds);
+
+		}
+
+		if(seconds < -1){
+
 			playerSwitch();
 			console.log(currentPlayer);
 
 		}
+
 	}, 1000);
 }
 
@@ -240,9 +248,6 @@ function shuffle(array) {
 
 //Creating of the Game Board
 
-// var card;
-
-// var gameBoardSetup = function
 function gameBoardSetup(){
 
 	shuffle(cards);
@@ -250,7 +255,7 @@ function gameBoardSetup(){
 	// console.log(cards);
 	for (var i = 0; i < cards.length; i++){
 		var card = document.createElement('img');
-		card.setAttribute('src', 'images/back.png');
+		card.setAttribute('src', 'images/cardBack.png');
 		card.setAttribute('id', i);
 		card.addEventListener('click', flipCard);
 		document.getElementById("mainBoard").appendChild(card);
@@ -258,16 +263,29 @@ function gameBoardSetup(){
 
 };
 
-// gameBoardSetup();
+// Test of new game board creation
+	
+	function testSetup(){
+		shuffle(cards);
+		$(".testBoard").empty();
+		$.each(cards, function(i, card){
+			$(".testboard").append("<div class='front'><img src='"+cards.cardImage+"'></div><div class='back'><img src='images/cardBack.png'></div>");
+		});
+	}
+
+// End of test
 //End of Game Board Creation
 
 // Game Over Function
 
 function gameOver(){
+
 	if(playerScores[0] + playerScores[1] == 8){
-		// setTimeout(stopGame, 1000);
+
+		document.querySelector(".playerDisplay").innerHTML = "Game ended!";
 		return true;
 	}
+
 	return false;
 }
 
@@ -290,20 +308,24 @@ function whoWon(){
 // Game Initialise
 
 function restart(){
-
+	console.log(gameOver());
 	log = [];
 	cardsInPlay = [];
 	currentPlayer = 0;
 	playerScores = [0, 0];
  	trackedCards = [];
+ 	seconds = 10;
  	gameBoardSetup();
  	$(".playerScore").empty().append("0");
  	$(".playerOne").css('color', 'red');
- 	// $(".playerScore").append("0");
- 	// $(".playerDisplay").empty().append("Player One");
+ 	$(".playerTwo").css('color', 'black');
+ 	clearInterval(timer);
  	countDownTimer();
- 	// $(".playerDisplay").append("Player One");
- 	alert("Game Ready!");
+
+ 	testSetup();
+
+ 	// console.log(gameOver());
+ 	// alert("Game Ready!");
 
 }
 
